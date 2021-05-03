@@ -18,7 +18,7 @@ class CreateRecipesTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('image');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

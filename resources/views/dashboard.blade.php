@@ -34,9 +34,10 @@
                         <td class="p-3 px-5">
                             
                             <a href="/recipe/{{$recipe->id}}" name="edit" class="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Edit</a>
-                            <form action="/recipe/{{$recipe->id}}" class="inline-block">
+                            <form action="/recipe/{{$recipe->id}}" method="POST" class="inline-block">
+                                @method('DELETE')    
                                 @csrf
-                                <button type="submit" name="delete" formmethod="POST" class="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete</button>
+                                <button type="submit" class="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete</button>
                                 
                             </form>
                         </td>

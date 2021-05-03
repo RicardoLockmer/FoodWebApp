@@ -16,7 +16,7 @@ class CreateProcess extends Migration
         Schema::create('process', function (Blueprint $table) {
             $table->id();
             $table->string('steps');
-            $table->foreignId('recipe_id')->constrained();
+            $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
