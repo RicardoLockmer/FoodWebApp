@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RecipeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+    Route::get('/dashboard', [RecipeController::class, 'index'])->name('dashboard');
+    
+    Route::get('/recipe', [RecipeController::class, 'create']);
+    Route::post('/recipe', [RecipeController::class, 'store']);
+
+    Route::get('/recipe/{recipe}', [RecipeController::class, 'edit']);
+    Route::post('/recipe/{recipe}', [RecipeController::class, 'update']);
+});
+    
+    

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredients;
 use App\Models\Recipe;
+use App\Models\Steps;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class RecipeController extends Controller
 {
@@ -14,7 +19,8 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        //
+        $recipes = auth()->user()->recipes;
+        return view('dashboard', compact('recipes'));
     }
 
     /**
@@ -24,7 +30,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        //
+        return view('add');
     }
 
     /**
@@ -35,8 +41,46 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $stepsData = json_decode($request->steps);
+        $ingredientsData = json_decode($request->ingredientes);
+        $recipeValidation = request()->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'image' => 'required',
+            'steps' => 'required',
+            'ingredientes' => 'required'
+        ]);
+
+        try{
+        $recipe = new Recipe();
+        $recipe->name = $request->nombre;
+        $recipe->description = $request->descripcion;
+        $ext = pathinfo($request->fileName, PATHINFO_EXTENSION);
+        $newFileName = date('dmyhms').'.'.$ext;
+        $request->image->move(public_path('/images'), $newFileName);
+        $recipe->image = $newFileName;
+        $recipe->user_id = Auth::user()->id;
+        $recipe->save();
+        
+        foreach($ingredientsData as $ingredients){
+            $newIngredients = new Ingredients();
+            $newIngredients->ingredients = $ingredients;
+            $newIngredients->recipe_id = $recipe->id;
+            $newIngredients->save();
+        }
+        foreach($stepsData as $step){
+            $newSteps = new Steps();
+            $newSteps->steps = $step;
+            $newSteps->recipe_id = $recipe->id;
+            $newSteps->save();
+        }
+        
+
+    } catch(\Illuminate\Database\QueryException $e) {
+        return back()->withErrors(['ERROR', 'The Message']);
     }
+}
 
     /**
      * Display the specified resource.

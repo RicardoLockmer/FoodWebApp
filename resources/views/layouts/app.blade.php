@@ -16,7 +16,11 @@
         @livewireStyles
 
         <!-- Scripts -->
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
         <script src="{{ mix('js/app.js') }}" defer></script>
+        
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -42,5 +46,7 @@
         @stack('modals')
 
         @livewireScripts
+        
+        
     </body>
 </html>
