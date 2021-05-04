@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center text-white">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="/">
                         logo
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link  href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-jet-nav-link  href="/" :active="request()->routeIs('dashboard')">
                      <div class="text-white">
                         {{ __('FoodWebApp') }}
                      </div>

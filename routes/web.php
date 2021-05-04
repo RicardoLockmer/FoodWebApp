@@ -25,8 +25,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::post('/recipe', [RecipeController::class, 'store']);
 
     Route::get('/recipe/{recipe}', [RecipeController::class, 'edit']);
-    Route::post('/recipe/{recipe}', [RecipeController::class, 'update']);
-    Route::delete('/recipe/{recipe}', [RecipeController::class, 'destroy']);
+    Route::put('/update/{recipe}', [RecipeController::class, 'update']);
+Route::delete('/recipe/{recipe}', [RecipeController::class, 'destroy']);
 });
     
     

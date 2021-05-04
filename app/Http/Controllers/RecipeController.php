@@ -51,7 +51,7 @@ class RecipeController extends Controller
             'steps' => 'required',
             'ingredientes' => 'required'
         ]);
-
+                
         try{
         $recipe = new Recipe();
         $recipe->name = $request->nombre;
@@ -101,7 +101,12 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        //
+        // direct to edit page
+        if(auth()->user()->id == $recipe->user_id){
+            return view('edit', compact('recipe'));
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -114,6 +119,62 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe)
     {
         //
+        
+        try {
+
+
+            $recipe->name = $request->nombre;
+            $recipe->description = $request->descripcion;
+    
+            if($request->image){
+                $fileName = $request->file('image')->getClientOriginalName();
+                
+                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+                $newFileName = date('dmyhms').$ext;
+                $request->image->move(public_path('/images'), $newFileName);
+                $recipe->image = $newFileName;
+    
+            }
+    
+            foreach($request->ingredientes as $index => $ingredient){
+
+                if($ingredient != NULL){
+
+                    if(isset($recipe->ingredients[$index])){
+                        $recipe->ingredients[$index]->ingredients = $ingredient;
+                        $recipe->update();
+                    } else {
+                        $newIngredient = new Ingredients();
+                        $newIngredient->ingredients = $ingredient;
+                        $newIngredient->recipe_id = $recipe->id;
+                        $newIngredient->save();
+                    }
+
+                }else {
+                    $recipe->ingredients[$index]->delete();
+                }
+                    
+            }
+            foreach($request->steps as $index => $step){
+                if($step != NULL){
+                    if(isset($recipe->steps[$index])){
+                        $recipe->steps[$index]->steps = $step;
+                        $recipe->update();
+
+                    } else {
+                        $newStep = new Steps();
+                        $newStep->steps = $step;
+                        $newStep->recipe_id = $recipe->id;
+                        $newStep->save();
+                    }
+                } else {
+                    $recipe->steps[$index]->delete();
+                }
+            }
+            $recipe->update();
+        } catch(\Illuminate\Database\QueryException $e) {
+            return back()->withErrors(['ERROR', 'The Message']);
+        }
     }
 
     /**

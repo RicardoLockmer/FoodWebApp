@@ -18,7 +18,20 @@ const recipeLogic = {
                 '',
             )
         },
-        
+        onEditStep: function(){
+
+            var ListElement = document.getElementById('stepList');
+            var childCount = ListElement.childNodes.length;
+            var newListItem = '<li><input name="steps['+childCount+']" id="process" value="" class="shadow-md rounded border border-gray-300 w-2/5 h-5 my-2 py-4 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" ></li>';
+            ListElement.insertAdjacentHTML('beforeend', newListItem);
+        },
+        onEditIngredient: function(){
+
+            var ListElement = document.getElementById('ingredientList');
+            var childCount = ListElement.childNodes.length;
+            var newListItem = '<li><input name="ingredientes['+childCount+']" id="process" value="" class="shadow-md rounded border border-gray-300 w-2/5 h-5 my-2 py-4 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" ></li>';
+            ListElement.insertAdjacentHTML('beforeend', newListItem);
+        },
         AddIngredient: function(){
             this.ingredientes.push(
                 '',
