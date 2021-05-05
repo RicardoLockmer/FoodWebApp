@@ -30,6 +30,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
+        //sends to add page
         return view('add');
     }
 
@@ -90,7 +91,8 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        //
+        // sends to details page
+        return view('details', compact('recipe'));
     }
 
     /**
@@ -101,7 +103,7 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        // direct to edit page
+        // sends to edit page
         if(auth()->user()->id == $recipe->user_id){
             return view('edit', compact('recipe'));
         } else {
@@ -119,10 +121,7 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe)
     {
         //
-        
         try {
-
-
             $recipe->name = $request->nombre;
             $recipe->description = $request->descripcion;
     
