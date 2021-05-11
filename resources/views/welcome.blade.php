@@ -14,21 +14,32 @@
 
     </head>
     <body class="antialiased">
-    <div class="flex justify-end items-center w-full bg-red-500 h-16">
-        @auth
-            <a href="{{ url('/dashboard') }}" class="text-md text-white font-bold self-align-center mx-2">My Recipes</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="text-white font-bold mx-6">
-                        {{ __('Log Out') }}
-                    </a>
-                </form>
-        @else
-            <a href="{{ route('login') }}" class="text-md text-white font-bold underline mx-2">Log in</a>
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="text-md text-white font-bold underline mx-6">Register</a>
-            @endif
-        @endauth
+    <div class="grid grid-cols-2 content-center w-full bg-red-500 h-16">
+            <div class="justify-self-start flex ">
+                <div class="hidden self-center space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link  href="/" :active="request()->routeIs('dashboard')">
+                     <div class="text-white">
+                        {{ __('FoodWebApp') }}
+                     </div>
+                    </x-jet-nav-link>
+                </div>
+            </div>
+            <div  class="flex justify-self-end">
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="text-md text-white font-bold self-align-center mx-2">My Recipes</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="text-white font-bold mx-6">
+                                {{ __('Log Out') }}
+                            </a>
+                        </form>
+                @else
+                    <a href="{{ route('login') }}" class="text-md text-white font-bold underline mx-2">Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="text-md text-white font-bold underline mx-6">Register</a>
+                    @endif
+                @endauth
+            </div>
     </div>
         <div class="  min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             
@@ -38,7 +49,7 @@
             
 
             <div class="w-5/6 mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-center text-4xl font-bold pt-8 sm:justify-start sm:pt-0 border-b-4 p-2 border-gray-200">
+                <div class="flex justify-center text-4xl font-bold pt-8 sm:justify-start sm:pt-0 border-b-2 p-2 border-gray-200">
                     <h1>Food Web App</h1>
                 </div>
 
